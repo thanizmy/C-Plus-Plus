@@ -43,16 +43,19 @@ void findMinimumEdge(const T &infinity,
         return;
     }
     for (int i = 0; i < graph.size(); i++) {
-        int min = infinity;
-        int minIndex = 0;
+        T min = infinity;
+        int minIndex = -1;
         for (int j = 0; j < graph.size(); j++) {
             if (i != j && graph[i][j] != 0 && graph[i][j] < min) {
                 min = graph[i][j];
                 minIndex = j;
             }
         }
-        std::cout << i << "  -  " << minIndex << "\t" << graph[i][minIndex]
-                  << "\n";
+        if (minIndex != -1) {  // If we found a valid connection
+            std::cout << i << "  -  " << minIndex << "\t" << graph[i][minIndex] << std::endl;
+        } else {
+            std::cout << i << " has no valid connections." << std::endl;
+        }
     }
 }
 }  // namespace greedy_algorithms
@@ -67,16 +70,17 @@ static void selfTest() {
     std::array<std::array<int, 4>,4> graph1{
         0,          2,    5,    INT_MAX,
         2,          0,    3,    4,
-        5,          3,    0,    2,
-        INT_MAX,    4,    2,    0};
+        5,          3,    0,    6,
+        INT_MAX,    4,    6,    0};
     greedy_algorithms::findMinimumEdge(INT_MAX, graph1);
 
     // Test 2: Graph with float values
     std:: cout << "Test case 2: \n";
-    std::array<std::array<float, 3>,3> graph2{
-        0.0f,    2.3f,    FLT_MAX,
-        2.3f,    0.0f,    1.0f,
-        FLT_MAX, 1.0f,    0.0f};
+    std::array<std::array<float, 3>,3> graph2{{
+        {0.0f,    2.3f,    FLT_MAX},
+        {2.3f,    0.0f,    1.0f},
+        {FLT_MAX, 1.0f,    0.0f}
+        }};
     greedy_algorithms::findMinimumEdge(FLT_MAX, graph2);
 
     // Test 3: Graph with negative weights
